@@ -1,0 +1,19 @@
+version: '3.1'
+services:
+  mysql:
+    image: mysql:8.0.29
+    container_name: luni-mysql
+    ports:
+      - 33306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: admin-pwd
+      MYSQL_DATABASE: lunapi
+      MYSQL_USER: luni-admin
+      MYSQL_PASSWORD: luni-admin-app
+      TZ: Europe/Paris
+    volumes:
+      - ./data:/luni/data
+  api:
+    image: node:16.16.0
+    container_name: luni-api
+    
