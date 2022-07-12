@@ -16,4 +16,13 @@ services:
   api:
     image: node:16.16.0
     container_name: luni-api
+    ports:
+      - 50000:5000
+    volumes:
+      - ./luni-api:/usr/luni/api
+    environment:
+      MYSQL_DATABASE_PORT: 33306
+      MYSQL_DATABASE_NAME: lunapi
+    working_dir: /usr/luni/api
+    command: "npm run start"
     
