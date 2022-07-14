@@ -1,3 +1,4 @@
-.luni-api
+./luni-api
 .idea
 .workspace
+package-lock.json
