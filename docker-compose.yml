@@ -9,10 +9,10 @@ services:
       MYSQL_ROOT_PASSWORD: admin-pwd
       MYSQL_DATABASE: lunapi
       MYSQL_USER: luni-admin
-      MYSQL_PASSWORD: luni-admin-app
+      MYSQL_PASSWORD: luni-admin-api
       TZ: Europe/Paris
     volumes:
-      - ./data:/luni/data
+      - ./data:/docker-entrypoint-initdb.d
   api:
     image: node:16.16.0
     container_name: luni-api
