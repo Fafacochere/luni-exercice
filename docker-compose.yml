@@ -1,7 +1,7 @@
 version: '3.1'
 services:
   mysql:
-    image: mysql:8.0.29
+    image: mysql:5.7.38
     container_name: luni-mysql
     ports:
       - 33306:3306
@@ -13,6 +13,9 @@ services:
       TZ: Europe/Paris
     volumes:
       - ./data:/docker-entrypoint-initdb.d
+    networks:
+      luninet:
+        ipv4_address: 172.22.0.254
   api:
     image: node:16.16.0
     container_name: luni-api
@@ -23,9 +26,19 @@ services:
     environment:
       MYSQL_DATABASE_PORT: 33306
       MYSQL_DATABASE_NAME: lunapi
+      MYSQL_USER: luni-admin
+      MYSQL_PASSWORD: luni-admin-api
       NODE_PORT: 5000
     user: "node"
     working_dir: /usr/luni/api
     command: "npm run dev"
     restart: on-failure
-    
+    networks:
+      luninet:
+networks:
+  luninet:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.22.0.1/24"
