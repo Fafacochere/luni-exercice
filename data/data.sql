@@ -28,6 +28,18 @@ CREATE TABLE IF NOT EXISTS programs_exercices(
     CONSTRAINT FK_Exercice FOREIGN KEY (exercice_id) REFERENCES exercices(id)
 );
 
+CREATE TABLE IF NOT EXISTS users(
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    idfv VARCHAR(30) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS users_token(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    token VARCHAR(255) NOT NULL,
+    CONSTRAINT FK_users FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
 INSERT INTO categories (name) VALUES ('AMRAP'), ('RFT'), ('WOD');
 
 INSERT INTO programs (category_id, name) VALUES 
