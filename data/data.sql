@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS users_token(
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT NOT NULL,
     token VARCHAR(255) NOT NULL,
+    expires_at TIMESTAMP,
     CONSTRAINT FK_users FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
