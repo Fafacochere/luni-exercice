@@ -18,7 +18,7 @@ cd luni-exercice
 git clone https://github.com/Fafacochere/luni-api.git
 ```
 
-After you can launch this project with `docker-compose up -d`.
+After you can launch this project with `docker-compose up -d`. Check if all containers is ready to use, specially `luni-api, it can take a couple of minutes to be ready. 
 
 Once it's done, you can access to the API via `http://localhost:8000`.  For access to the endpoint `/api/v1/data`, you have to add your idfv (even if it's a fake one) in your request headers like 
 ``` JSON
