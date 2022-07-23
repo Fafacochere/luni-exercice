@@ -13,16 +13,11 @@ services:
       - ./conf/luni_mysql.cnf:/etc/mysql/luni_mysql.cnf
       - ./mysql-data:/var/lib/mysql
     command: ["--max_connections=2000"]
-    deploy:
-      mode: replicated
-      replicas: 3
     networks:
       luninet:
   luni-redis:
     image: redis/redis-stack-server:6.2.2-v5
-    deploy:
-      mode: replicated
-      replicas: 2
+    restart: on-failure
     networks:
       luninet:
   luni-api:
@@ -39,7 +34,7 @@ services:
       REDIS_HOSTNAME: 'luni-redis'
     user: "node"
     working_dir: /usr/luni/api
-    command: "npm run dev"
+    command: "npm run deploy"
     restart: on-failure
     deploy:
       mode: replicated
