@@ -1,10 +1,7 @@
 version: '3.1'
 services:
-  mysql:
+  luni-mysql:
     image: mysql:5.7.38
-    container_name: luni-mysql
-    ports:
-      - 33306:3306
     environment:
       MYSQL_ROOT_PASSWORD: admin-pwd
       MYSQL_DATABASE: lunapi
@@ -14,27 +11,37 @@ services:
     volumes:
       - ./data:/docker-entrypoint-initdb.d
       - ./conf/luni_mysql.cnf:/etc/mysql/luni_mysql.cnf
+    ports:
+      - 33306:3306
     command: ["--max_connections=2000"]
     networks:
       luninet:
-        ipv4_address: 172.22.0.254
+  luni-redis:
+    image: redis/redis-stack-server:6.2.2-v5
+    deploy:
+      mode: replicated
+      replicas: 2
+    networks:
+      luninet:
   luni-api:
     image: node:16.16.0
     volumes:
       - ./luni-api:/usr/luni/api
     environment:
-      MYSQL_DATABASE_PORT: 33306
+      MYSQL_HOSTNAME: 'luni-mysql'
+      MYSQL_DATABASE_PORT: 3306
       MYSQL_DATABASE_NAME: lunapi
       MYSQL_USER: luni-admin
       MYSQL_PASSWORD: luni-admin-api
       NODE_PORT: 5000
+      REDIS_HOSTNAME: 'luni-redis'
     user: "node"
     working_dir: /usr/luni/api
     command: "npm run dev"
     restart: on-failure
     deploy:
       mode: replicated
-      replicas: 5 
+      replicas: 1
     networks:
       luninet:
   nginx:
