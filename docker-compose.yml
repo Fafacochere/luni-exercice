@@ -11,9 +11,11 @@ services:
     volumes:
       - ./data:/docker-entrypoint-initdb.d
       - ./conf/luni_mysql.cnf:/etc/mysql/luni_mysql.cnf
-    ports:
-      - 33306:3306
+      - ./mysql-data:/var/lib/mysql
     command: ["--max_connections=2000"]
+    deploy:
+      mode: replicated
+      replicas: 3
     networks:
       luninet:
   luni-redis:
@@ -41,7 +43,7 @@ services:
     restart: on-failure
     deploy:
       mode: replicated
-      replicas: 1
+      replicas: 5
     networks:
       luninet:
   nginx:
